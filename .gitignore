@@ -1,0 +1,21 @@
+# Python: служебные файлы, создаются автоматически
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Данные и модели: большие файлы, версионируем через DVC, а не git
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/*.dvc
+data/processed/*
+!data/processed/.gitkeep
+models/*
+!models/.gitkeep
+
+# MLflow: локальная база экспериментов
+mlruns/
+mlflow.db
+
+# Секреты
+.env
