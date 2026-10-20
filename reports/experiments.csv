@@ -1,0 +1,6 @@
+model,cv_roc_auc,cv_roc_auc_std,train_roc_auc,test_roc_auc,test_gini,test_precision,test_recall,test_f1,threshold,fit_time_sec,best_params
+hist_gb,0.7878,0.0074,0.8199,0.7761,0.5523,0.5096,0.5596,0.5334,0.28,45.8169,"{'l2_regularization': 1.0, 'learning_rate': 0.1, 'max_leaf_nodes': 15}"
+random_forest,0.7874,0.0087,0.8319,0.7759,0.5517,0.509,0.5739,0.5395,0.28,234.2115,"{'max_depth': 12, 'min_samples_leaf': 50}"
+gradient_boosting,0.7873,0.0074,0.8155,0.7766,0.5533,0.4899,0.5867,0.534,0.25,488.6886,"{'learning_rate': 0.05, 'max_depth': 4}"
+decision_tree,0.7748,0.0069,0.7972,0.7612,0.5224,0.5367,0.491,0.5128,0.29,18.8173,"{'max_depth': 8, 'min_samples_leaf': 200}"
+logreg,0.7578,0.0123,0.7616,0.7509,0.5017,0.4814,0.5573,0.5166,0.24,15.0691,{'C': 1}

@@ -6,3 +6,4 @@ seaborn>=0.12
 xlrd>=2.0
 great_expectations>=1.0
 pytest>=8.0
+mlflow>=3.0

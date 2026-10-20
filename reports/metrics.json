@@ -1,0 +1,13 @@
+{
+  "model": "hist_gb",
+  "cv_roc_auc": 0.7878,
+  "cv_roc_auc_std": 0.0074,
+  "train_roc_auc": 0.8199,
+  "test_roc_auc": 0.7761,
+  "test_gini": 0.5523,
+  "test_precision": 0.5096,
+  "test_recall": 0.5596,
+  "test_f1": 0.5334,
+  "threshold": 0.28,
+  "fit_time_sec": 45.8169
+}

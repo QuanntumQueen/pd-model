@@ -19,3 +19,4 @@ mlflow.db
 
 # Секреты
 .env
+mlartifacts/
