@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python -m src.data.make_dataset
+    deps:
+    - path: data/raw/default of credit card clients.xls
+      hash: md5
+      md5: 25a64500f543274fd6c9db905bfeb968
+      size: 5539328
+    - path: src/config.py
+      hash: md5
+      md5: 72e8b9bae7db5337b2cddd085f6458f9
+      size: 995
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: 61342f97c5e41b23cb6e1a68267a1586
+      size: 1704
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 24bfcbe3883b30c1cb5e6fde00052bf1
+      size: 539706
+    - path: data/processed/train.csv
+      hash: md5
+      md5: dd9c32e374cfab519a47be7047133627
+      size: 2156589
+  validate:
+    cmd: python -m src.data.validation
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 24bfcbe3883b30c1cb5e6fde00052bf1
+      size: 539706
+    - path: data/processed/train.csv
+      hash: md5
+      md5: dd9c32e374cfab519a47be7047133627
+      size: 2156589
+    - path: src/data/validation.py
+      hash: md5
+      md5: 61e949c4f30f99e8573b0a92c9644599
+      size: 4381
+    outs:
+    - path: data/expectations/credit_data_suite.json
+      hash: md5
+      md5: 50dc5a778bbd9c80f5ba2b41d48ece06
+      size: 20752
+  train:
+    cmd: python -m src.models.train
+    deps:
+    - path: data/expectations/credit_data_suite.json
+      hash: md5
+      md5: 50dc5a778bbd9c80f5ba2b41d48ece06
+      size: 20752
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 24bfcbe3883b30c1cb5e6fde00052bf1
+      size: 539706
+    - path: data/processed/train.csv
+      hash: md5
+      md5: dd9c32e374cfab519a47be7047133627
+      size: 2156589
+    - path: src/features/build_features.py
+      hash: md5
+      md5: d1973bcd434858a01300da6fc9cb7752
+      size: 2410
+    - path: src/models/metrics.py
+      hash: md5
+      md5: 1c3559ea897d7e9f2762f2db4694a4ac
+      size: 1927
+    - path: src/models/pipeline.py
+      hash: md5
+      md5: 0b99ce2277f47e6379e68f110b3d2784
+      size: 1385
+    - path: src/models/train.py
+      hash: md5
+      md5: a9797a84f843c2bede32bca183db6fa9
+      size: 6089
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 2a1c37c998ace2660e233f7db3275b92
+      size: 153514
+    - path: reports/experiments.csv
+      hash: md5
+      md5: 81f1c5b95ae20c65d56e23e67fede354
+      size: 756
+    - path: reports/metrics.json
+      hash: md5
+      md5: 474f6873d68e0d5a2936d8c52cd907c6
+      size: 274

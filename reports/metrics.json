@@ -9,5 +9,5 @@
   "test_recall": 0.5596,
   "test_f1": 0.5334,
   "threshold": 0.28,
-  "fit_time_sec": 45.8169
+  "fit_time_sec": 48.4992
 }
