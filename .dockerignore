@@ -1,0 +1,9 @@
+.git
+.dvc
+data
+notebooks
+mlruns
+mlartifacts
+*.db
+reports/figures
+__pycache__
