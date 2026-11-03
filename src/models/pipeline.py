@@ -1,5 +1,4 @@
-"""Sklearn Pipeline: Feature Engineering -> предобработка (Imputer, Scaler, OHE) -> модель."""
-
+# Sklearn Pipeline: Feature Engineering - предобработка (Imputer, Scaler, OHE) - модель
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
@@ -8,8 +7,8 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from src.features.build_features import FeatureEngineer, NUMERIC_FEATURES, CATEGORICAL_FEATURES
 
 
+# Числовые: пропуски - медиана, масштабирование. Категориальные: пропуски - мода, OHE
 def create_preprocessor():
-    """Числовые: пропуски -> медиана, масштабирование. Категориальные: пропуски -> мода, OHE."""
     numeric = Pipeline(
         [
             ("imputer", SimpleImputer(strategy="median")),
@@ -30,8 +29,8 @@ def create_preprocessor():
     )
 
 
+# Полный конвейер: принимает сырые данные клиента, возвращает предсказание модели
 def create_pipeline(model):
-    """Полный конвейер: принимает сырые данные клиента, возвращает предсказание модели."""
     return Pipeline(
         [
             ("features", FeatureEngineer()),

@@ -1,5 +1,4 @@
-"""Метрики качества, выбор порога классификации и ROC-кривая."""
-
+# Метрики качества, выбор порога классификации и ROC-кривая
 import matplotlib
 
 matplotlib.use("Agg")  # рисуем в файл, без экрана (нужно для CI и Docker)
@@ -8,8 +7,8 @@ import numpy as np
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, roc_curve
 
 
+# ROC-AUC, Gini — по вероятностям; Precision, Recall, F1 — по классам при пороге
 def compute_metrics(y_true, proba, threshold=0.5):
-    """ROC-AUC, Gini — по вероятностям; Precision, Recall, F1 — по классам при пороге."""
     pred = (proba >= threshold).astype(int)
     auc = roc_auc_score(y_true, proba)
     return {
@@ -22,15 +21,14 @@ def compute_metrics(y_true, proba, threshold=0.5):
     }
 
 
+# Порог, при котором F1 максимален (перебор от 0.05 до 0.95)
 def best_threshold(y_true, proba):
-    """Порог, при котором F1 максимален (перебор от 0.05 до 0.95)."""
     thresholds = np.arange(0.05, 0.951, 0.01)
     scores = [f1_score(y_true, (proba >= t).astype(int)) for t in thresholds]
     return round(float(thresholds[int(np.argmax(scores))]), 2)
 
 
 def plot_roc(y_true, proba, path, title="ROC-кривая"):
-    """Строит ROC-кривую и сохраняет её в файл."""
     fpr, tpr, _ = roc_curve(y_true, proba)
     auc = roc_auc_score(y_true, proba)
     fig, ax = plt.subplots(figsize=(6, 6))

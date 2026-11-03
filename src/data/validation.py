@@ -6,8 +6,7 @@
 
 import json
 import sys
-from pathlib import Path  # НОВОЕ
-
+from pathlib import Path
 import great_expectations as gx
 import pandas as pd
 
@@ -21,7 +20,7 @@ FEATURE_COLUMNS = (
 )
 ALL_COLUMNS = FEATURE_COLUMNS + [TARGET]
 
-# Диапазоны допустимых значений (обоснование — EDA, раздел 1)
+# Диапазоны допустимых значений
 RANGES = {"LIMIT_BAL": (1, 5_000_000), "AGE": (18, 100)}
 RANGES.update({c: (-2, 8) for c in PAY_COLS})
 RANGES.update({c: (-1_000_000, 5_000_000) for c in BILL_COLS})
@@ -87,7 +86,7 @@ def failed_checks(result):
     ]
 
 
-#  Сохраняет набор правил в JSON (data/expectations/), чтобы его было видно в репозитории
+# Сохраняет набор правил в JSON (data/expectations/)
 def save_suite():
     context = gx.get_context(mode="ephemeral")
     suite = make_suite(context)
@@ -105,10 +104,10 @@ def main(paths=None):
         result = validate(pd.read_csv(path))
         n = len(result.results)
         if result.success:
-            print(f" {path.name}: все {n} проверок пройдены")
+            print(f" OK {path.name}: все {n} проверок пройдены")
         else:
             all_ok = False
-            print(f" {path.name}: не пройдены проверки: {failed_checks(result)}")
+            print(f" ERROR {path.name}: не пройдены проверки: {failed_checks(result)}")
     sys.exit(0 if all_ok else 1)
 
 

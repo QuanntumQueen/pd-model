@@ -1,6 +1,8 @@
 # Схемы запроса и ответа API (проверка входных данных через Pydantic)
 from pydantic import BaseModel, ConfigDict, Field
 
+
+# Пример заявки (клиент с просрочкой 2 месяца), показывается в документации /docs
 EXAMPLE = {
     "LIMIT_BAL": 50000,
     "SEX": 2,
@@ -30,7 +32,6 @@ EXAMPLE = {
 
 # Данные клиента за последние 6 месяцев (как в исходном датасете)
 class Client(BaseModel):
-
     model_config = ConfigDict(json_schema_extra={"example": EXAMPLE})
 
     LIMIT_BAL: float = Field(gt=0, description="Кредитный лимит")
@@ -60,7 +61,6 @@ class Client(BaseModel):
 
 # Ответ модели
 class Prediction(BaseModel):
-
     default_class: int = Field(description="1 — ожидается дефолт, 0 — нет")
     default_probability: float = Field(description="Вероятность дефолта (PD)")
     threshold: float = Field(description="Порог: при вероятности не ниже порога класс = 1")

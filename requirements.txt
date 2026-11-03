@@ -7,6 +7,7 @@ xlrd>=2.0
 great_expectations>=1.0
 pytest>=8.0
 mlflow>=3.0
+skops>=0.10
 dvc>=3.0
 fastapi>=0.110
 uvicorn>=0.29

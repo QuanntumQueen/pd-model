@@ -1,7 +1,5 @@
-"""Загрузка сырых данных, очистка и разбиение на train/test.
-
-Запуск из корня проекта:  python -m src.data.make_dataset
-"""
+# Загрузка сырых данных, очистка и разбиение на train/test.
+# Запуск из корня проекта:  python -m src.data.make_dataset
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -18,21 +16,21 @@ from src.config import (
 )
 
 
+# Читает исходный xls. Заголовки столбцов — во второй строке файла.
 def load_raw(path=RAW_PATH):
-    """Читает исходный xls. Заголовки столбцов — во второй строке файла."""
     return pd.read_excel(path, header=1)
 
 
+# Переименовывает target, удаляет ID и полные дубликаты (найдены в EDA)
 def clean(df):
-    """Переименовывает target, удаляет ID и полные дубликаты (найдены в EDA)."""
     df = df.rename(columns={RAW_TARGET: TARGET})
     df = df.drop(columns=["ID"])
     df = df.drop_duplicates().reset_index(drop=True)
     return df
 
 
+# Стратифицированное разбиение: доля дефолтов одинакова в train и test
 def split(df):
-    """Стратифицированное разбиение: доля дефолтов одинакова в train и test."""
     return train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=df[TARGET])
 
 

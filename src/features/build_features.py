@@ -1,5 +1,4 @@
-"""Feature Engineering. Обоснование каждого признака — в notebooks/01_eda.ipynb."""
-
+# Feature Engineering.
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -15,8 +14,8 @@ NUMERIC_FEATURES = ["LIMIT_BAL", "AGE"] + PAY_COLS + BILL_COLS + AMT_COLS + NEW_
 CATEGORICAL_FEATURES = ["SEX", "EDUCATION", "MARRIAGE", "AGE_BIN"]
 
 
+# Возвращает копию таблицы с очищенными категориями и новыми признаками
 def add_features(df):
-    """Возвращает копию таблицы с очищенными категориями и новыми признаками."""
     df = df.copy()
 
     # Недокументированные коды -> «другое» (EDA, шаг 15)
@@ -37,13 +36,8 @@ def add_features(df):
     return df
 
 
+# Обёртка над add_features для sklearn Pipeline
 class FeatureEngineer(BaseEstimator, TransformerMixin):
-    """Обёртка над add_features для sklearn Pipeline.
-
-    Признаки создаются внутри модели, поэтому API передаёт ей сырые данные клиента,
-    и при обучении и в работе считаются одни и те же формулы.
-    """
-
     def fit(self, X, y=None):
         return self
 

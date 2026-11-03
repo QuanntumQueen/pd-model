@@ -1,6 +1,5 @@
 # Тесты загрузки и очистки данных (src/data/make_dataset.py).
 import pandas as pd
-
 from src.config import RAW_TARGET, TARGET
 from src.data.make_dataset import clean, split
 

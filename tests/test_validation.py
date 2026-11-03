@@ -1,8 +1,6 @@
-"""Тесты валидации данных (Great Expectations).
-
-test_real_data_passes провалится, если в данных появятся аномалии.
-Остальные тесты специально портят данные и проверяют, что валидация это ловит.
-"""
+# Тесты валидации данных (Great Expectations)
+# test_real_data_passes провалится, если в данных появятся аномалии
+# Остальные тесты специально портят данные и проверяют, что валидация это ловит
 
 from pathlib import Path
 
@@ -14,9 +12,9 @@ from src.data.validation import validate, failed_checks
 SAMPLE_PATH = Path(__file__).parent / "data" / "sample.csv"
 
 
+# Свежая копия образца данных для каждого теста
 @pytest.fixture
 def sample():
-    """Свежая копия образца данных для каждого теста."""
     return pd.read_csv(SAMPLE_PATH)
 
 

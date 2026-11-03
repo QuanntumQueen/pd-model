@@ -1,5 +1,4 @@
-"""Настройки проекта: пути, имена столбцов, параметры разбиения."""
-
+# Настройки проекта: пути, имена столбцов, параметры разбиения
 from pathlib import Path
 
 # Корень проекта: папка pd-model (на 2 уровня выше этого файла)
@@ -11,7 +10,7 @@ PROCESSED_DIR = ROOT / "data" / "processed"
 TRAIN_PATH = PROCESSED_DIR / "train.csv"
 TEST_PATH = PROCESSED_DIR / "test.csv"
 
-# Целевая переменная: исходное длинное имя и короткое, которым пользуемся дальше
+# Целевая переменная
 RAW_TARGET = "default payment next month"
 TARGET = "default"
 

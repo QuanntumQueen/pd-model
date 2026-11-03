@@ -1,10 +1,8 @@
 # REST API модели вероятности дефолта. Запуск: uvicorn src.api.app:app --port 8000
 import json
-
 import joblib
 import pandas as pd
 from fastapi import FastAPI
-
 from src.api.schemas import Client, Prediction
 from src.config import ROOT
 

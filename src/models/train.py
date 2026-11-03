@@ -1,4 +1,4 @@
-# Обучение 5 моделей (GridSearchCV) с логированием в MLflow.
+# Обучение 5 моделей (GridSearchCV) с логированием в MLflow
 # Запуск: python -m src.models.train
 # Создаёт: mlflow.db, models/model.pkl, reports/metrics.json, reports/experiments.csv
 import json
@@ -97,7 +97,7 @@ def train_one(name, model, param_grid, X_train, y_train, X_test, y_test, cv):
         )
         roc_path = plot_roc(y_test, proba, FIG_DIR / f"roc_{name}.png", f"ROC-кривая: {name}")
         mlflow.log_artifact(str(roc_path))
-        # Свои классы (FeatureEngineer и др.) MLflow просит явно отметить как доверенные
+        # Свои классы (FeatureEngineer и др.) MLflow - отметить как доверенные
         trusted = sio.get_untrusted_types(data=sio.dumps(best))
         mlflow.sklearn.log_model(
             best, name="model", input_example=X_train.head(3), skops_trusted_types=trusted
@@ -118,7 +118,7 @@ def main():
 
     rows, fitted = [], {}
     for name, (model, grid) in MODELS.items():
-        print(f"▶ {name} ...", flush=True)
+        print(f"  {name} ...", flush=True)
         best, row = train_one(name, model, grid, X_train, y_train, X_test, y_test, cv)
         rows.append(row)
         fitted[name] = best
