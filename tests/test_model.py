@@ -28,7 +28,7 @@ def test_pipeline_returns_probabilities(fitted):
 def test_pipeline_handles_missing_values(fitted):
     model, X, _ = fitted
     X_bad = X.head(5).copy()
-    X_bad.loc[X_bad.index[0], "LIMIT_BAL"] = np.nan    # неполная заявка
+    X_bad.loc[X_bad.index[0], "LIMIT_BAL"] = np.nan  # неполная заявка
     X_bad.loc[X_bad.index[1], "AGE"] = np.nan
     proba = model.predict_proba(X_bad)[:, 1]
     assert not np.isnan(proba).any()

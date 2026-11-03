@@ -1,8 +1,12 @@
 # Тесты Feature Engineering (src/features/build_features.py)
 import pytest
 from src.config import AMT_COLS, PAY_COLS
-from src.features.build_features import (CATEGORICAL_FEATURES, NUMERIC_FEATURES,
-                                         FeatureEngineer, add_features)
+from src.features.build_features import (
+    CATEGORICAL_FEATURES,
+    NUMERIC_FEATURES,
+    FeatureEngineer,
+    add_features,
+)
 
 
 # Один клиент из образца — его значения будем менять в тестах
@@ -12,13 +16,13 @@ def one_client(sample_df):
 
 def test_n_delays_counts_months_with_delay(sample_df):
     row = one_client(sample_df)
-    row[PAY_COLS] = [[2, 1, 0, -1, 0, 2]]          # просрочка в 3 месяцах из 6
+    row[PAY_COLS] = [[2, 1, 0, -1, 0, 2]]  # просрочка в 3 месяцах из 6
     assert add_features(row)["N_DELAYS"].iloc[0] == 3
 
 
 def test_payment_aggregates(sample_df):
     row = one_client(sample_df)
-    row[AMT_COLS] = [[0, 2000, 0, 0, 1500, 0]]     # 4 месяца без платежа
+    row[AMT_COLS] = [[0, 2000, 0, 0, 1500, 0]]  # 4 месяца без платежа
     out = add_features(row)
     assert out["N_ZERO_PAY"].iloc[0] == 4
     assert out["PAY_AMT_MEAN"].iloc[0] == pytest.approx(3500 / 6)

@@ -8,8 +8,11 @@ import joblib
 import mlflow
 import mlflow.sklearn
 import pandas as pd
-from sklearn.ensemble import (GradientBoostingClassifier, HistGradientBoostingClassifier,
-                              RandomForestClassifier)
+from sklearn.ensemble import (
+    GradientBoostingClassifier,
+    HistGradientBoostingClassifier,
+    RandomForestClassifier,
+)
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_predict
 from sklearn.tree import DecisionTreeClassifier
@@ -26,30 +29,42 @@ FIG_DIR = REPORTS_DIR / "figures"
 
 # Эксперименты: модель + сетка гиперпараметров
 MODELS = {
-    "logreg": (
-        LogisticRegression(max_iter=1000),
-        {"model__C": [0.01, 0.1, 1, 10]}),
+    "logreg": (LogisticRegression(max_iter=1000), {"model__C": [0.01, 0.1, 1, 10]}),
     "decision_tree": (
         DecisionTreeClassifier(random_state=RANDOM_STATE),
-        {"model__max_depth": [4, 6, 8], "model__min_samples_leaf": [50, 200]}),
+        {"model__max_depth": [4, 6, 8], "model__min_samples_leaf": [50, 200]},
+    ),
     "random_forest": (
         RandomForestClassifier(n_estimators=200, random_state=RANDOM_STATE),
-        {"model__max_depth": [8, 12], "model__min_samples_leaf": [20, 50]}),
+        {"model__max_depth": [8, 12], "model__min_samples_leaf": [20, 50]},
+    ),
     "gradient_boosting": (
         GradientBoostingClassifier(random_state=RANDOM_STATE),
-        {"model__learning_rate": [0.05, 0.1], "model__max_depth": [3, 4]}),
+        {"model__learning_rate": [0.05, 0.1], "model__max_depth": [3, 4]},
+    ),
     "hist_gb": (
         HistGradientBoostingClassifier(random_state=RANDOM_STATE),
-        {"model__learning_rate": [0.05, 0.1], "model__max_leaf_nodes": [15, 31],
-         "model__l2_regularization": [0.0, 1.0]}),
+        {
+            "model__learning_rate": [0.05, 0.1],
+            "model__max_leaf_nodes": [15, 31],
+            "model__l2_regularization": [0.0, 1.0],
+        },
+    ),
 }
+
 
 # Обучает модель с GridSearchCV и логирует её в MLflow.
 def train_one(name, model, param_grid, X_train, y_train, X_test, y_test, cv):
     with mlflow.start_run(run_name=name):
         start = time.time()
-        search = GridSearchCV(create_pipeline(model), param_grid, scoring="roc_auc",
-                              cv=cv, n_jobs=-1, return_train_score=True)
+        search = GridSearchCV(
+            create_pipeline(model),
+            param_grid,
+            scoring="roc_auc",
+            cv=cv,
+            n_jobs=-1,
+            return_train_score=True,
+        )
         search.fit(X_train, y_train)
         best = search.best_estimator_
 
@@ -68,22 +83,27 @@ def train_one(name, model, param_grid, X_train, y_train, X_test, y_test, cv):
             **{f"test_{k}": v for k, v in test_metrics.items() if k != "threshold"},
             "threshold": threshold,
             "fit_time_sec": time.time() - start,
-            "best_params": str({k.replace("model__", ""): v for k, v in search.best_params_.items()}),
+            "best_params": str(
+                {k.replace("model__", ""): v for k, v in search.best_params_.items()}
+            ),
         }
 
         mlflow.set_tag("model_type", name)
         mlflow.log_param("param_grid", str(param_grid))
         mlflow.log_params({k.replace("model__", ""): v for k, v in search.best_params_.items()})
         mlflow.log_param("threshold", threshold)
-        mlflow.log_metrics({k: v for k, v in row.items()
-                            if k not in ("model", "threshold", "best_params")})
+        mlflow.log_metrics(
+            {k: v for k, v in row.items() if k not in ("model", "threshold", "best_params")}
+        )
         roc_path = plot_roc(y_test, proba, FIG_DIR / f"roc_{name}.png", f"ROC-кривая: {name}")
         mlflow.log_artifact(str(roc_path))
         # Свои классы (FeatureEngineer и др.) MLflow просит явно отметить как доверенные
         trusted = sio.get_untrusted_types(data=sio.dumps(best))
-        mlflow.sklearn.log_model(best, name="model", input_example=X_train.head(3),
-                                 skops_trusted_types=trusted)
+        mlflow.sklearn.log_model(
+            best, name="model", input_example=X_train.head(3), skops_trusted_types=trusted
+        )
     return best, row
+
 
 def main():
     mlflow.set_tracking_uri(MLFLOW_URI)
@@ -102,9 +122,11 @@ def main():
         best, row = train_one(name, model, grid, X_train, y_train, X_test, y_test, cv)
         rows.append(row)
         fitted[name] = best
-        print(f"  CV ROC-AUC {row['cv_roc_auc']:.4f} | test ROC-AUC {row['test_roc_auc']:.4f}"
-              f" | F1 {row['test_f1']:.4f} | порог {row['threshold']} | {row['fit_time_sec']:.0f} с",
-              flush=True)
+        print(
+            f"  CV ROC-AUC {row['cv_roc_auc']:.4f} | test ROC-AUC {row['test_roc_auc']:.4f}"
+            f" | F1 {row['test_f1']:.4f} | порог {row['threshold']} | {row['fit_time_sec']:.0f} с",
+            flush=True,
+        )
 
     # Лучшая модель — по ROC-AUC на кросс-валидации
     board = pd.DataFrame(rows).sort_values("cv_roc_auc", ascending=False)
@@ -112,14 +134,20 @@ def main():
     best_row = board.iloc[0]
     joblib.dump(fitted[best_row["model"]], MODEL_PATH)
 
-    metrics = {k: (round(float(v), 4) if isinstance(v, float) else v)
-               for k, v in best_row.items() if k != "best_params"}
+    metrics = {
+        k: (round(float(v), 4) if isinstance(v, float) else v)
+        for k, v in best_row.items()
+        if k != "best_params"
+    }
     with open(REPORTS_DIR / "metrics.json", "w", encoding="utf-8") as f:
         json.dump(metrics, f, ensure_ascii=False, indent=2)
 
     print("Сравнение моделей:")
-    print(board[["model", "cv_roc_auc", "test_roc_auc", "test_gini", "test_f1", "threshold"]]
-          .round(4).to_string(index=False))
+    print(
+        board[["model", "cv_roc_auc", "test_roc_auc", "test_gini", "test_f1", "threshold"]]
+        .round(4)
+        .to_string(index=False)
+    )
     print(f"Лучшая модель: {best_row['model']} -> {MODEL_PATH.name}")
 
 

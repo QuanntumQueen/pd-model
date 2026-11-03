@@ -7,12 +7,14 @@ from src.data.make_dataset import clean, split
 
 # Тестовая таблица из 4 клиентов. Клиенты 1 и 3 одинаковые, отличается только ID.
 def make_raw():
-    return pd.DataFrame({
-        "ID": [1, 2, 3, 4],
-        "LIMIT_BAL": [10000, 20000, 10000, 30000],
-        "AGE": [30, 40, 30, 50],
-        RAW_TARGET: [0, 1, 0, 0],
-    })
+    return pd.DataFrame(
+        {
+            "ID": [1, 2, 3, 4],
+            "LIMIT_BAL": [10000, 20000, 10000, 30000],
+            "AGE": [30, 40, 30, 50],
+            RAW_TARGET: [0, 1, 0, 0],
+        }
+    )
 
 
 def test_clean_removes_id_and_renames_target():

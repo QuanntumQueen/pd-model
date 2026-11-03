@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать код
+        uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Установить зависимости
+        run: |
+          pip install -r requirements.txt
+          pip install black==25.1.0 flake8==7.1.1
+
+      - name: Проверка стиля (flake8)
+        run: flake8 src tests
+
+      - name: Проверка форматирования (black)
+        run: black --check src tests
+
+      - name: Валидация данных (Great Expectations)
+        run: python -m src.data.validation tests/data/sample.csv
+
+      - name: Тесты (pytest)
+        run: python -m pytest -v

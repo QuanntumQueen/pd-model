@@ -2,11 +2,20 @@
 
 Запуск из корня проекта:  python -m src.data.make_dataset
 """
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.config import (RAW_PATH, PROCESSED_DIR, TRAIN_PATH, TEST_PATH,
-                        RAW_TARGET, TARGET, TEST_SIZE, RANDOM_STATE)
+from src.config import (
+    RAW_PATH,
+    PROCESSED_DIR,
+    TRAIN_PATH,
+    TEST_PATH,
+    RAW_TARGET,
+    TARGET,
+    TEST_SIZE,
+    RANDOM_STATE,
+)
 
 
 def load_raw(path=RAW_PATH):
@@ -24,8 +33,7 @@ def clean(df):
 
 def split(df):
     """Стратифицированное разбиение: доля дефолтов одинакова в train и test."""
-    return train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_STATE,
-                            stratify=df[TARGET])
+    return train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=df[TARGET])
 
 
 def main():

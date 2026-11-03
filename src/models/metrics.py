@@ -1,10 +1,11 @@
 """Метрики качества, выбор порога классификации и ROC-кривая."""
+
 import matplotlib
+
 matplotlib.use("Agg")  # рисуем в файл, без экрана (нужно для CI и Docker)
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import (f1_score, precision_score, recall_score,
-                             roc_auc_score, roc_curve)
+from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, roc_curve
 
 
 def compute_metrics(y_true, proba, threshold=0.5):

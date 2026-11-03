@@ -1,4 +1,5 @@
 """Feature Engineering. Обоснование каждого признака — в notebooks/01_eda.ipynb."""
+
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -26,9 +27,9 @@ def add_features(df):
     df["AGE_BIN"] = pd.cut(df["AGE"], bins=AGE_BINS, labels=AGE_LABELS).astype(str)
 
     # Агрегаты платежей за 6 месяцев
-    df["N_DELAYS"] = (df[PAY_COLS] > 0).sum(axis=1)       # месяцев с просрочкой
-    df["N_ZERO_PAY"] = (df[AMT_COLS] == 0).sum(axis=1)    # месяцев с нулевым платежом
-    df["PAY_AMT_MEAN"] = df[AMT_COLS].mean(axis=1)        # средний платёж
+    df["N_DELAYS"] = (df[PAY_COLS] > 0).sum(axis=1)  # месяцев с просрочкой
+    df["N_ZERO_PAY"] = (df[AMT_COLS] == 0).sum(axis=1)  # месяцев с нулевым платежом
+    df["PAY_AMT_MEAN"] = df[AMT_COLS].mean(axis=1)  # средний платёж
 
     # Утилизация лимита
     df["UTIL"] = df["BILL_AMT1"] / df["LIMIT_BAL"]
