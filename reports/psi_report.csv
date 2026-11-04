@@ -1,0 +1,19 @@
+scenario,feature,psi,status
+test,LIMIT_BAL,0.0015,стабильно
+test,AGE,0.0009,стабильно
+test,PAY_0,0.0008,стабильно
+test,BILL_AMT1,0.0022,стабильно
+test,PAY_AMT1,0.0011,стабильно
+test,N_DELAYS,0.0006,стабильно
+test,N_ZERO_PAY,0.0002,стабильно
+test,UTIL,0.0011,стабильно
+test,score (PD),0.0006,стабильно
+drift,LIMIT_BAL,0.5473,значительный сдвиг
+drift,AGE,0.0009,стабильно
+drift,PAY_0,1.5484,значительный сдвиг
+drift,BILL_AMT1,0.0022,стабильно
+drift,PAY_AMT1,0.0011,стабильно
+drift,N_DELAYS,0.8556,значительный сдвиг
+drift,N_ZERO_PAY,0.0002,стабильно
+drift,UTIL,0.422,значительный сдвиг
+drift,score (PD),0.4323,значительный сдвиг

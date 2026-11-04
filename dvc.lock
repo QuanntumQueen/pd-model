@@ -88,3 +88,27 @@ stages:
       hash: md5
       md5: 53052cb9aef712846b4f759d43947bd3
       size: 274
+  monitor:
+    cmd: python -m src.monitoring.psi
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 24bfcbe3883b30c1cb5e6fde00052bf1
+      size: 539706
+    - path: data/processed/train.csv
+      hash: md5
+      md5: dd9c32e374cfab519a47be7047133627
+      size: 2156589
+    - path: models/model.pkl
+      hash: md5
+      md5: 2a1c37c998ace2660e233f7db3275b92
+      size: 153514
+    - path: src/monitoring/psi.py
+      hash: md5
+      md5: a423edbfe0ac06b1c3733af9ab464d12
+      size: 3947
+    outs:
+    - path: reports/psi_report.csv
+      hash: md5
+      md5: 2c6a51d468eac13ada3e8b5e62b9ec7a
+      size: 829

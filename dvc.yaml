@@ -37,3 +37,14 @@ stages:
     metrics:
       - reports/metrics.json:
           cache: false
+
+  monitor:
+    cmd: python -m src.monitoring.psi
+    deps:
+      - src/monitoring/psi.py
+      - models/model.pkl
+      - data/processed/train.csv
+      - data/processed/test.csv
+    outs:
+      - reports/psi_report.csv:
+          cache: false
