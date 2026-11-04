@@ -4,19 +4,22 @@ __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
 
-# Данные и модели: большие файлы, версионируем через DVC, а не git
+# Данные: большие файлы, версионируем через DVC, а не git
 data/raw/*
 !data/raw/.gitkeep
 !data/raw/*.dvc
 data/processed/*
 !data/processed/.gitkeep
+
+# Модели: в git только итоговая модель (150 КБ), нужна для Docker
 models/*
 !models/.gitkeep
+!models/model.pkl
 
 # MLflow: локальная база экспериментов
 mlruns/
 mlflow.db
+mlartifacts/
 
 # Секреты
 .env
-mlartifacts/

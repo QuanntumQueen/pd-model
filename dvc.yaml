@@ -30,7 +30,8 @@ stages:
       - data/processed/test.csv
       - data/expectations/credit_data_suite.json
     outs:
-      - models/model.pkl
+      - models/model.pkl:
+          cache: false
       - reports/experiments.csv:
           cache: false
     metrics:
